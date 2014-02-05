@@ -83,3 +83,17 @@ Client.prototype.download = function(remoteFile, localFile) {
   });
   return downloader;
 };
+
+Client.prototype.list = function(remotePath) {
+  var lister = new EventEmitter();
+  var knoxList = this.knox.list({ prefix: remotePath }, function (err, resp) {
+    if (err) {
+      lister.emit('error', err);
+    } else if (resp.statusCode !== 200 && resp.statusCode !== 307) {
+      lister.emit('error', new Error("s3 http status code " + resp.statusCode));
+    } else {
+      // successful request
+      // TODO
+    }
+  });
+};

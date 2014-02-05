@@ -45,6 +45,16 @@ downloader.on('end', function() {
   console.log("done");
 });
 
+// list files in your s3 bucket (limit 1000)
+var lister = client.list("some/remote/prefix");
+lister.on('error', function(err) {
+  console.error("unable to list:", err.stack);
+});
+lister.on('end', function(data) {
+  console.log("done");
+  console.log(data);
+});
+
 // instantiate from existing knox client
 var knoxClient = knox.createClient(options);
 var client = s3.fromKnox(knoxClient);
